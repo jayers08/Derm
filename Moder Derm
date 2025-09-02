@@ -1,0 +1,473 @@
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+
+// Modern Dermatology of Maryland — Single‑File React Website
+// ✅ Mobile‑first, accessible, SEO‑ready
+// ✅ Tailwind for styling (no extra CSS needed)
+// ✅ JSON‑LD schema for Local SEO + FAQs
+// ✅ Clear CTAs wired for conversions
+// 🚀 Replace placeholders (phone, address, booking URL, bios, images) before going live
+
+export default function ModernDermWebsite() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [year] = useState(new Date().getFullYear());
+
+  // --- Basic SEO title ---
+  useEffect(() => {
+    const prev = document.title;
+    document.title = "Dermatologist in Annapolis, MD | Modern Dermatology of Maryland";
+    return () => (document.title = prev);
+  }, []);
+
+  // --- JSON‑LD Structured Data (update NAP, hours, links!) ---
+  const clinicSchema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    name: "Modern Dermatology of Maryland",
+    url: "https://moderndermatologymd.com/",
+    telephone: "+1-410-216-0993",
+    image:
+      "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=1200&auto=format&fit=crop",
+    description:
+      "Board‑certified dermatology clinic in Annapolis, MD offering medical, surgical, and cosmetic dermatology for all ages.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "123 Clinic Way, Suite 200",
+      addressLocality: "Annapolis",
+      addressRegion: "MD",
+      postalCode: "21401",
+      addressCountry: "US",
+    },
+    geo: { "@type": "GeoCoordinates", latitude: 38.9784, longitude: -76.4922 },
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday"],
+        opens: "08:00",
+        closes: "17:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Friday",
+        opens: "08:00",
+        closes: "15:00",
+      },
+    ],
+    medicalSpecialty: ["Dermatology", "PediatricDermatology"],
+    sameAs: [
+      "https://www.facebook.com/yourpage",
+      "https://www.instagram.com/yourpage",
+      "https://www.healthgrades.com/yourprofile",
+    ],
+    paymentAccepted: ["Cash", "Credit Card", "Insurance"],
+    acceptsNewPatients: true,
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Do you accept insurance?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            "Yes. We accept most major plans in Maryland. Call (410) 216‑0993 or see our Patients section for the current list.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How soon can I get an appointment?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            "New patients welcome. Same‑week availability is common—request an appointment online or by phone.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Do you offer cosmetic dermatology?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text:
+            "Yes. We offer neuromodulators, fillers, peels, microneedling, and sun‑damage care. See Cosmetic Dermatology below.",
+        },
+      },
+    ],
+  };
+
+  const fadeIn = {
+    initial: { opacity: 0, y: 14 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.5 },
+  };
+
+  // Replace with your real booking link (Klara or EMR portal)
+  const BOOK_URL = "https://example.com/book";
+
+  return (
+    <div className="min-h-screen bg-white text-slate-800">
+      {/* JSON‑LD (kept in body for single‑file demo; ideally render in <head>) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(clinicSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+
+      {/* Skip link */}
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 rounded bg-white px-3 py-2 shadow"
+      >
+        Skip to content
+      </a>
+
+      {/* Top notice */}
+      <div className="w-full bg-emerald-700 text-white text-sm">
+        <div className="mx-auto max-w-7xl px-4 py-2 flex items-center justify-center gap-3">
+          <span className="font-semibold">New patients welcome</span>
+          <span aria-hidden>•</span>
+          <span>Same‑week appointments</span>
+        </div>
+      </div>
+
+      {/* Header */}
+      <header className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
+        <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+          <a href="#home" className="flex items-center gap-3" aria-label="Home">
+            <div className="h-10 w-10 rounded-2xl bg-emerald-600 text-white font-bold grid place-items-center">
+              MD
+            </div>
+            <div>
+              <p className="font-semibold leading-5">Modern Dermatology of Maryland</p>
+              <p className="text-xs text-slate-500 leading-4">Dermatologist in Annapolis, MD</p>
+            </div>
+          </a>
+
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <a className="hover:text-emerald-700" href="#services">Services</a>
+            <a className="hover:text-emerald-700" href="#providers">Providers</a>
+            <a className="hover:text-emerald-700" href="#patients">Patients</a>
+            <a className="hover:text-emerald-700" href="#reviews">Reviews</a>
+            <a className="hover:text-emerald-700" href="#location">Location</a>
+            <a className="hover:text-emerald-700" href="#contact">Contact</a>
+          </nav>
+
+          <div className="hidden md:flex items-center gap-3">
+            <a href="tel:+14102160993" className="rounded-2xl border px-4 py-2 text-sm hover:bg-emerald-50">(410) 216‑0993</a>
+            <a
+              href={BOOK_URL}
+              className="rounded-2xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700"
+            >
+              Book online
+            </a>
+          </div>
+
+          <button
+            aria-label="Open menu"
+            onClick={() => setMobileOpen(true)}
+            className="md:hidden inline-flex items-center justify-center rounded-xl border px-3 py-2"
+          >
+            ☰
+          </button>
+        </div>
+
+        {/* Mobile menu */}
+        {mobileOpen && (
+          <div className="md:hidden border-t bg-white">
+            <div className="px-4 py-3 grid gap-2">
+              {["services","providers","patients","reviews","location","contact"].map((id) => (
+                <a key={id} className="py-2" href={`#${id}`} onClick={() => setMobileOpen(false)}>
+                  {id[0].toUpperCase()+id.slice(1)}
+                </a>
+              ))}
+              <div className="flex gap-2 pt-2">
+                <a href="tel:+14102160993" className="flex-1 rounded-xl border px-4 py-2 text-sm text-center">Call</a>
+                <a href={BOOK_URL} className="flex-1 rounded-xl bg-emerald-600 text-white px-4 py-2 text-sm text-center">Book</a>
+              </div>
+              <button aria-label="Close menu" onClick={() => setMobileOpen(false)} className="mt-1 text-left text-slate-500">Close</button>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Hero */}
+      <section id="home" className="relative">
+        <img
+          src="https://images.unsplash.com/photo-1551076805-e1869033e561?q=80&w=2400&auto=format&fit=crop"
+          alt="Bright, modern dermatology clinic interior"
+          className="h-[58vh] w-full object-cover"
+          loading="eager"
+          width="2400"
+          height="1100"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent" />
+        <div className="mx-auto max-w-7xl px-4">
+          <motion.div {...fadeIn} className="relative -mt-24 md:-mt-28 lg:-mt-32 max-w-3xl rounded-3xl border bg-white p-6 md:p-8 shadow-xl">
+            <h1 className="text-2xl md:text-4xl font-semibold tracking-tight">
+              Dermatologist in Annapolis, MD — Medical, Surgical & Cosmetic Care
+            </h1>
+            <p className="mt-3 text-slate-600">
+              Clear, healthy skin starts here. New patients welcome; same‑week availability.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a href={BOOK_URL} className="rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-medium text-white hover:bg-emerald-700">
+                Book online
+              </a>
+              <a href="#services" className="rounded-2xl border px-5 py-3 text-sm hover:bg-emerald-50">Explore services</a>
+              <a href="tel:+14102160993" className="rounded-2xl border px-5 py-3 text-sm hover:bg-emerald-50">Call (410) 216‑0993</a>
+            </div>
+            <ul className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-xs text-slate-600">
+              <li>• Skin cancer screening</li>
+              <li>• Acne & rosacea</li>
+              <li>• Eczema & psoriasis</li>
+              <li>• Moles & rashes</li>
+              <li>• Cosmetic dermatology</li>
+            </ul>
+          </motion.div>
+        </div>
+      </section>
+
+      <main id="main">
+        {/* Trust bar */}
+        <section className="border-b bg-emerald-50/50 py-10">
+          <div className="mx-auto grid max-w-7xl grid-cols-2 items-center gap-4 px-4 md:grid-cols-5">
+            {["Board‑certified care","Same‑week availability","Most insurances accepted","Patient portal","On‑site procedures"].map((t,i)=>(
+              <div key={i} className="text-center text-sm text-slate-700 bg-white rounded-2xl border py-3 px-2 shadow-sm">
+                {t}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Services */}
+        <section id="services" className="py-16">
+          <div className="mx-auto max-w-7xl px-4">
+            <motion.h2 {...fadeIn} className="text-2xl md:text-3xl font-semibold">Dermatology Services</motion.h2>
+            <p className="mt-2 max-w-3xl text-slate-600">
+              Preventive skin checks, advanced medical care, in‑office procedures, and cosmetic treatments for all ages.
+            </p>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                { title: "Medical Dermatology", items: ["Acne & rosacea","Eczema & psoriasis","Rashes & hives","Warts & molluscum","Mole evaluation"], img: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=1200&auto=format&fit=crop" },
+                { title: "Skin Cancer & Surgery", items: ["Full‑body skin exams","Biopsies","Excisions & ED&C","Actinic keratoses","Mohs coordination"], img: "https://images.unsplash.com/photo-1582719478185-2f57b7d7f79f?q=80&w=1200&auto=format&fit=crop" },
+                { title: "Cosmetic Dermatology", items: ["Botox® / Dysport","Fillers","Chemical peels","Microneedling","Sun‑damage care"], img: "https://images.unsplash.com/photo-1512295767273-ac109ac3acfa?q=80&w=1200&auto=format&fit=crop" },
+              ].map((card, i) => (
+                <article key={i} className="group overflow-hidden rounded-3xl border bg-white shadow-sm">
+                  <img src={card.img} alt="Service" className="h-44 w-full object-cover" loading="lazy" width="1200" height="176" />
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold group-hover:text-emerald-700">{card.title}</h3>
+                    <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-slate-600">
+                      {card.items.map((li, j) => (
+                        <li key={j}>{li}</li>
+                      ))}
+                    </ul>
+                    <div className="mt-4">
+                      <a href={BOOK_URL} className="text-sm font-medium text-emerald-700 hover:underline">Book {card.title.toLowerCase()}</a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Providers */}
+        <section id="providers" className="border-t bg-slate-50 py-16">
+          <div className="mx-auto max-w-7xl px-4">
+            <motion.h2 {...fadeIn} className="text-2xl md:text-3xl font-semibold">Meet Our Providers</motion.h2>
+            <p className="mt-2 max-w-3xl text-slate-600">Our board‑certified team delivers evidence‑based, patient‑first care.</p>
+
+            <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+              {[
+                { name: "Lane Neidig, MD, FAAD", role: "Board‑Certified Dermatologist", img: "https://images.unsplash.com/photo-1550831107-1553da8c8464?q=80&w=1200&auto=format&fit=crop", bio: "Clinical interests include skin cancer detection, acne, eczema, psoriasis, and complex rashes." },
+                { name: "Alex Morgan, PA‑C", role: "Physician Associate — Dermatology", img: "https://images.unsplash.com/photo-1556157382-97eda2d62296?q=80&w=1200&auto=format&fit=crop", bio: "Experienced in medical dermatology, patient education, and procedural dermatology." },
+                { name: "Jamie Park, RN", role: "Aesthetic Nurse", img: "https://images.unsplash.com/photo-1527613426441-4da17471b66d?q=80&w=1200&auto=format&fit=crop", bio: "Focus on cosmetic treatments including injectables, peels, and skincare programs." },
+              ].map((p, i) => (
+                <article key={i} className="overflow-hidden rounded-3xl border bg-white shadow-sm">
+                  <img src={p.img} alt={`${p.name}`} className="h-48 w-full object-cover" loading="lazy" width="1200" height="192" />
+                  <div className="p-6">
+                    <h3 className="text-lg font-semibold">{p.name}</h3>
+                    <p className="text-sm text-slate-500">{p.role}</p>
+                    <p className="mt-3 text-sm text-slate-600">{p.bio}</p>
+                    <div className="mt-4">
+                      <a href={BOOK_URL} className="text-sm font-medium text-emerald-700 hover:underline">Book with our team</a>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Patients */}
+        <section id="patients" className="py-16">
+          <div className="mx-auto max-w-7xl px-4">
+            <motion.h2 {...fadeIn} className="text-2xl md:text-3xl font-semibold">For Patients</motion.h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div className="rounded-3xl border p-6">
+                <h3 className="text-lg font-semibold">Insurance & Billing</h3>
+                <p className="mt-2 text-sm text-slate-600">We accept most major Maryland plans. Please bring your card and ID.</p>
+                <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-slate-600">
+                  <li>Co‑pays due at check‑in</li>
+                  <li>Referrals (if required) must be active</li>
+                  <li>Self‑pay welcome</li>
+                </ul>
+              </div>
+              <div className="rounded-3xl border p-6">
+                <h3 className="text-lg font-semibold">Patient Resources</h3>
+                <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-slate-600">
+                  <li><a className="hover:underline" href="#" aria-label="Patient portal">Patient portal</a></li>
+                  <li><a className="hover:underline" href="#" aria-label="New patient forms">New patient forms (PDF)</a></li>
+                  <li><a className="hover:underline" href="#" aria-label="Financial policy">Financial policy</a></li>
+                </ul>
+                <div className="mt-4">
+                  <a href={BOOK_URL} className="text-sm font-medium text-emerald-700 hover:underline">Book your first visit</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Reviews */}
+        <section id="reviews" className="border-t bg-emerald-50/50 py-16">
+          <div className="mx-auto max-w-7xl px-4">
+            <motion.h2 {...fadeIn} className="text-2xl md:text-3xl font-semibold">Patient Reviews</motion.h2>
+            <div className="mt-6 grid gap-6 md:grid-cols-3">
+              {[
+                { q: "The team is thorough and kind. Booking online was easy.", n: "K.A." },
+                { q: "Dr. Neidig listened and fixed what others missed.", n: "M.R." },
+                { q: "Clean office, on‑time visits, and great results.", n: "T.S." },
+              ].map((r, i) => (
+                <blockquote key={i} className="rounded-3xl border bg-white p-6 shadow-sm">
+                  <p className="text-sm text-slate-700">“{r.q}”</p>
+                  <footer className="mt-3 text-xs text-slate-500">— {r.n}</footer>
+                </blockquote>
+              ))}
+            </div>
+            <div className="mt-6">
+              <a href="#" className="text-sm font-medium text-emerald-700 hover:underline">Read more reviews</a>
+            </div>
+          </div>
+        </section>
+
+        {/* Location */}
+        <section id="location" className="py-16">
+          <div className="mx-auto max-w-7xl px-4">
+            <motion.h2 {...fadeIn} className="text-2xl md:text-3xl font-semibold">Location</motion.h2>
+            <p className="mt-2 max-w-3xl text-slate-600">123 Clinic Way, Suite 200, Annapolis, MD 21401</p>
+            <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <div className="rounded-3xl border bg-white p-2">
+                {/* Replace with your real Google Maps embed */}
+                <iframe
+                  title="Map to Modern Dermatology of Maryland"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3096.851319!2d-76.4922!3d38.9784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sAnnapolis%2C%20MD!5e0!3m2!1sen!2sus!4v1680000000000"
+                  className="h-72 w-full rounded-2xl"
+                  loading="lazy"
+                />
+              </div>
+              <div className="rounded-3xl border p-6">
+                <h3 className="text-lg font-semibold">Parking & Access</h3>
+                <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-slate-600">
+                  <li>Free surface lot</li>
+                  <li>Elevator access; ADA compliant</li>
+                  <li>Bus stop within 0.2 miles</li>
+                </ul>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <a href="https://maps.google.com/?q=123+Clinic+Way+Annapolis+MD" className="rounded-2xl border px-4 py-2 text-sm hover:bg-emerald-50">Open in Maps</a>
+                  <a href="tel:+14102160993" className="rounded-2xl border px-4 py-2 text-sm hover:bg-emerald-50">Call (410) 216‑0993</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact */}
+        <section id="contact" className="border-t bg-slate-50 py-16">
+          <div className="mx-auto max-w-7xl px-4">
+            <motion.h2 {...fadeIn} className="text-2xl md:text-3xl font-semibold">Contact Us</motion.h2>
+            <p className="mt-2 max-w-3xl text-slate-600">Have a question? Send us a note and our team will reach out.</p>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                alert("Thanks! We'll be in touch shortly.");
+              }}
+              className="mt-6 grid gap-4 rounded-3xl border bg-white p-6 md:grid-cols-2"
+            >
+              <label className="text-sm">
+                Full name
+                <input className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="Jane Doe" required />
+              </label>
+              <label className="text-sm">
+                Email
+                <input type="email" className="mt-1 w-full rounded-xl border px-3 py-2" placeholder="you@example.com" required />
+              </label>
+              <label className="text-sm md:col-span-2">
+                Message
+                <textarea className="mt-1 w-full rounded-xl border px-3 py-2" rows={4} placeholder="How can we help?" required />
+              </label>
+              <div className="md:col-span-2 flex flex-wrap gap-3">
+                <button type="submit" className="rounded-2xl bg-emerald-600 px-5 py-3 text-sm font-medium text-white hover:bg-emerald-700">Send message</button>
+                <a href={BOOK_URL} className="rounded-2xl border px-5 py-3 text-sm hover:bg-emerald-50">Book online</a>
+                <a href="tel:+14102160993" className="rounded-2xl border px-5 py-3 text-sm hover:bg-emerald-50">Call (410) 216‑0993</a>
+              </div>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t bg-white py-10">
+        <div className="mx-auto max-w-7xl px-4">
+          <div className="grid gap-8 md:grid-cols-4">
+            <div>
+              <div className="h-10 w-10 rounded-2xl bg-emerald-600 text-white font-bold grid place-items-center">MD</div>
+              <p className="mt-3 text-sm text-slate-600 max-w-xs">
+                Modern Dermatology of Maryland provides comprehensive medical, surgical, and cosmetic dermatology to the Annapolis community.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold">Services</h3>
+              <ul className="mt-2 space-y-1 text-sm text-slate-600">
+                <li><a href="#services" className="hover:underline">Medical Dermatology</a></li>
+                <li><a href="#services" className="hover:underline">Skin Cancer & Surgery</a></li>
+                <li><a href="#services" className="hover:underline">Cosmetic Dermatology</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold">Contact</h3>
+              <ul className="mt-2 space-y-1 text-sm text-slate-600">
+                <li><a className="hover:underline" href="tel:+14102160993">(410) 216‑0993</a></li>
+                <li><a className="hover:underline" href="mailto:info@moderndermatologymd.com">info@moderndermatologymd.com</a></li>
+                <li>123 Clinic Way, Suite 200, Annapolis, MD 21401</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold">Appointments</h3>
+              <div className="mt-2 flex flex-col gap-2">
+                <a href={BOOK_URL} className="rounded-2xl bg-emerald-600 px-4 py-2 text-sm font-medium text-white hover:bg-emerald-700">Book online</a>
+                <a href="tel:+14102160993" className="rounded-2xl border px-4 py-2 text-sm hover:bg-emerald-50">Call to schedule</a>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-4 border-t pt-6 text-xs text-slate-500">
+            <p>© {year} Modern Dermatology of Maryland. All rights reserved.</p>
+            <nav className="flex items-center gap-4">
+              <a href="#" className="hover:underline">Privacy</a>
+              <a href="#" className="hover:underline">Accessibility</a>
+              <a href="#" className="hover:underline">Notice of Nondiscrimination</a>
+            </nav>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
